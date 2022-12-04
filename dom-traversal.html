@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Traversal</title>
+    <style>
+        div {
+            color: black;
+            font-family: serif;
+            font-size: 32px;
+            font-style: normal;
+        }
+        div > div {
+            margin-left: 2rem;
+            padding-left: 1rem;
+            border-left: 2px solid #888;
+        }
+    </style>
+    <script src="js/dom-traversal.js" defer></script>
+</head>
+<body>
+    <div id="grand-parent" class="outer-div">Grand Parent
+        <div>Parent 1
+            <div id="child-one" class="grandchildren">Child 1</div>
+            <div class="grandchildren">Child 2</div>
+        </div>
+        <div>Parent 2</div>
+    </div>
+</body>
+</html>
