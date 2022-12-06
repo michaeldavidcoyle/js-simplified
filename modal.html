@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Modal</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    #modal.open {
-      display: block;
-    }
+    <title>Modal</title>
+    <link rel="stylesheet" href="css/modal.css">
+    <style>
+        #modal.open {
+            display: block;
+        }
 
-    #overlay.open {
-      display: block;
-    }
-  </style>
-  <!-- TODO: 1. Link the script tag -->
+        #overlay.open {
+            display: block;
+        }
+    </style>
+    <!-- TODO: 1. Link the script tag -->
+    <script src="js/modal.js" defer></script>
 </head>
 <body>
 <button id="open-modal-btn">Open Modal</button>
@@ -20,8 +21,8 @@
 <div id="overlay"></div>
 
 <div id="modal">
-  <h3>This is a modal</h3>
-  <button id="close-modal-btn">Close Modal</button>
+    <h3>This is a modal</h3>
+    <button id="close-modal-btn">Close Modal</button>
 </div>
 </body>
 </html>
