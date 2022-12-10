@@ -1,37 +1,36 @@
 const audioContext = new AudioContext();
 
 const NOTE_DETAILS = [
-    { note: "C", key: "Z", frequency: 261.626, active: false },
-    { note: "Db", key: "S", frequency: 277.183, active: false },
-    { note: "D", key: "X", frequency: 293.665, active: false },
-    { note: "Eb", key: "D", frequency: 311.127, active: false },
-    { note: "E", key: "C", frequency: 329.628, active: false },
-    { note: "F", key: "V", frequency: 349.228, active: false },
-    { note: "Gb", key: "G", frequency: 369.994, active: false },
-    { note: "G", key: "B", frequency: 391.995, active: false },
-    { note: "Ab", key: "H", frequency: 415.305, active: false },
-    { note: "A", key: "N", frequency: 440, active: false },
-    { note: "Bb", key: "J", frequency: 466.164, active: false },
-    { note: "B", key: "M", frequency: 493.883, active: false }
+    { note: "C", key: "z", frequency: 261.626, active: false },
+    { note: "Db", key: "s", frequency: 277.183, active: false },
+    { note: "D", key: "x", frequency: 293.665, active: false },
+    { note: "Eb", key: "d", frequency: 311.127, active: false },
+    { note: "E", key: "c", frequency: 329.628, active: false },
+    { note: "F", key: "v", frequency: 349.228, active: false },
+    { note: "Gb", key: "g", frequency: 369.994, active: false },
+    { note: "G", key: "b", frequency: 391.995, active: false },
+    { note: "Ab", key: "h", frequency: 415.305, active: false },
+    { note: "A", key: "n", frequency: 440, active: false },
+    { note: "Bb", key: "j", frequency: 466.164, active: false },
+    { note: "B", key: "m", frequency: 493.883, active: false },
+    { note: "C8", key: ",", frequency: 523.25, active: false }
 ];
 
 document.addEventListener('keydown', event => {
     if (event.repeat) return;
 
-    const keyboardKey = event.code;
-    const noteDetail = getNoteDetail(keyboardKey);
+    const noteDetail = getNoteDetail(event.key);
 
     if (noteDetail == null) return;
 
     // console.log(noteDetail);
-    // console.log(event);
+    console.log(event);
     noteDetail.active = true;
     playNotes();
 });
 
 document.addEventListener('keyup', event => {
-    const keyboardKey = event.code;
-    const noteDetail = getNoteDetail(keyboardKey);
+    const noteDetail = getNoteDetail(event.key);
 
     if (noteDetail == null) return;
 
@@ -40,7 +39,8 @@ document.addEventListener('keyup', event => {
 });
 
 function getNoteDetail(keyboardKey) {
-    return NOTE_DETAILS.find(noteDetail => `Key${noteDetail.key}` === keyboardKey)
+    // return NOTE_DETAILS.find(noteDetail => `Key${noteDetail.key}` === keyboardKey)
+    return NOTE_DETAILS.find(noteDetail => noteDetail.key === keyboardKey)
 }
 
 function playNotes() {
