@@ -21,3 +21,18 @@ const answers = document.querySelectorAll('.answer');
 //      class and removing the correct class from all question items before checking the correct answers
 //    7. BONUS: If all answers are correct show the element with the id `alert` and hide it after one second (look into
 //      setTimeout) (use the class active to show the alert and remove the class to hide it)
+form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const selectedAnswers = Array.from(answers).filter(answer => answer.checked);
+    selectedAnswers.forEach(answer => {
+        // console.log(answer.value);
+        const question = answer.closest('.question-item');
+        if (answer.value === 'true') {
+            question.classList.add('correct');
+            question.classList.remove('incorrect');
+        } else {
+            question.classList.add('incorrect');
+        }
+    });
+});
