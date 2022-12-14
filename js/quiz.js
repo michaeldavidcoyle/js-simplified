@@ -45,6 +45,7 @@ form.addEventListener('submit', event => {
             correctCount++;
         } else {
             question.classList.add('incorrect');
+            question.classList.remove('correct');
         }
     });
 
