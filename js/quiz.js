@@ -7,6 +7,8 @@
 */
 const form = document.querySelector('#quiz-form');
 const answers = document.querySelectorAll('.answer');
+const questions = document.querySelectorAll('.question-item');
+const congrats = document.querySelector('#alert');
 
 // TODO: 3. Create a submit event listener for the form that does the following.
 //    1. Prevent the default behaviour
@@ -21,8 +23,17 @@ const answers = document.querySelectorAll('.answer');
 //      class and removing the correct class from all question items before checking the correct answers
 //    7. BONUS: If all answers are correct show the element with the id `alert` and hide it after one second (look into
 //      setTimeout) (use the class active to show the alert and remove the class to hide it)
+
+
 form.addEventListener('submit', event => {
     event.preventDefault();
+
+    let correctCount = 0;
+
+    questions.forEach(question => {
+        question.classList.add('incorrect');
+        question.classList.remove('correct');
+    });
 
     const selectedAnswers = Array.from(answers).filter(answer => answer.checked);
     selectedAnswers.forEach(answer => {
@@ -31,8 +42,16 @@ form.addEventListener('submit', event => {
         if (answer.value === 'true') {
             question.classList.add('correct');
             question.classList.remove('incorrect');
+            correctCount++;
         } else {
             question.classList.add('incorrect');
         }
     });
+
+    if (correctCount === questions.length) {
+        congrats.classList.add('active');
+        setTimeout(() => {
+            congrats.classList.remove('active');
+        }, 1000);
+    }
 });
