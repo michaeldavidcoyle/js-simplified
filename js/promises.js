@@ -75,7 +75,61 @@ promise
     .catch(error => {
         console.error(error);
     })
-    // executes regardless of success or failure
-    .finally(() => {
+    .finally(() => { // executes regardless of success or failure
         console.log("That's all folks.");
     });
+
+// async / await
+async function doStuff() {
+    await setTimeoutPromise(4000);
+    console.log('You just waited four seconds.')
+}
+
+doStuff();
+
+// error handling
+async function doMoreStuff() {
+    try {
+        await setTimeoutPromise(5000);
+        console.log('After all this time, success.');
+    } catch (error) {
+        console.error('Oops, something went wrong.');
+    }
+}
+
+doMoreStuff();
+
+// Call the function getValueWithDelay twice and print out the returned value
+// Then call getValueWithDelay and make sure that the error is properly caught.
+function getValueWithDelay(value, delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(value);
+        }, delay);
+    });
+}
+
+function getValueWithDelayError(value, delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject('Error');
+        }, delay);
+    });
+}
+
+async function logStuff() {
+    try {
+        const v1 = await getValueWithDelay('May the Force be with you.', 1000);
+        console.log(v1);
+        const v2 = await getValueWithDelay('Feliz Navidad', 2000);
+        console.log(v2);
+        const v3 = await getValueWithDelayError("I'm gonna make him an offer he can't refuse.", 3000);
+        console.log(v3);
+    } catch (error) {
+        console.error('No dice.');
+    } finally {
+        console.log('The End');
+    }
+}
+
+logStuff();
