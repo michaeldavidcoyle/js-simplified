@@ -6,7 +6,7 @@ const list = document.querySelector('#list');
 const template = document.querySelector('#list-item-template');
 const LOCAL_STORAGE_PREFIX = 'ADVANCED_TODO_LIST';
 const TODOS_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}-todos`;
-const todos = loadTodos();
+let todos = loadTodos();
 todos.forEach(renderTodo);
 
 list.addEventListener('change', event => {
@@ -20,7 +20,18 @@ list.addEventListener('change', event => {
     todo.complete = event.target.checked;
     // Save our update todo
     saveTodos();
-})
+});
+
+list.addEventListener('click', event => {
+   if (!event.target.matches('[data-button-delete]')) return;
+
+    const parent = event.target.closest('.list-item');
+    const todoId = parent.dataset.todoId;
+    parent.remove();
+
+    todos = todos.filter(todo => todo.id !== todoId);
+    saveTodos();
+});
 
 // Add Todos
 // User will type in todo and click add todo button.
@@ -49,8 +60,9 @@ function renderTodo(todo) {
     listItem.dataset.todoId = todo.id;
     // console.log(templateClone);
     const textElement = templateClone.querySelector('[data-list-item-text]');
-// Add the todo to the list above.
     textElement.innerText = todo.name;
+    const checkbox = templateClone.querySelector('[data-list-item-checkbox]');
+    checkbox.checked = todo.complete;
     list.appendChild(templateClone);
 }
 
