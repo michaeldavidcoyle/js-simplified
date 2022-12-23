@@ -38,7 +38,7 @@ list.addEventListener('click', event => {
 form.addEventListener('submit', event => {
     event.preventDefault();
 
-    const todoName = todoInput.value;
+    const todoName = todoInput.value.trim();
 
     if (todoName === '') return;
 
