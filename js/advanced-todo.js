@@ -40,7 +40,10 @@ form.addEventListener('submit', event => {
 
     const todoName = todoInput.value.trim();
 
-    if (todoName === '') return;
+    if (todoName === '') {
+        todoInput.value = '';
+        return;
+    }
 
     const todo = {
         name: todoName,
