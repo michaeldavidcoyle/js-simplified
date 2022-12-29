@@ -17,6 +17,11 @@ function setupMap(centerPosition) {
 
     const navigationControls = new mapboxgl.NavigationControl();
     map.addControl(navigationControls);
+
+    const directionControls = new MapboxDirections({
+        accessToken: MAPBOX_ACCESS_TOKEN
+    });
+    map.addControl(directionControls, 'top-left');
 }
 
 function successLocation(position) {
