@@ -134,15 +134,16 @@ const map = new mapboxgl.Map({
 // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/streets-v12',
     center: [-98.4946, 29.4252],
-    zoom: 10
+    zoom: 11
 });
 
 document.getElementById('fly').addEventListener('click', () => {
 // Fly to a random location
     map.flyTo({
         curve: 1,
-        speed: 0.5,
+        speed: 0.25,
         center: randomCity(),
+        zoom: 11,
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
     });
 });
