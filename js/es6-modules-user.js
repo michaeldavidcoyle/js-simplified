@@ -8,6 +8,8 @@ const sarah = {
     age: 49
 }
 
-function printUser(user) {
+export default function printUser(user) {
     console.log(`Name: ${user.name}. Age: ${user.age}`);
 }
+
+export { me, sarah }
