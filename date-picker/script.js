@@ -1,4 +1,5 @@
-import { add } from 'date-fns';
+import { add, format } from 'date-fns';
 
 const today = new Date();
-console.log(add(today, {months: 1}));
+const dateBtn = document.querySelector('.date-picker-button');
+dateBtn.innerText = format(today, 'MMMM do yyyy');
