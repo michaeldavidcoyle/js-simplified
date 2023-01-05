@@ -23,7 +23,7 @@ for (let d = 0; d < dateButtons.length; d++) {
         dateButtons[d].classList.add('date-picker-other-month-date');
     }
 
-    if (today.getDate() === d + 1) {
+    if (today.getDate() === currentDate.getDate()) {
         dateButtons[d].classList.add('selected');
     } else {
         dateButtons[d].classList.remove('selected');
@@ -56,9 +56,6 @@ function Month(selectedDate) {
     this.nextMonth = add(selectedDate, { months: 1 });
     this.weekdayStart = function() {
         return new Date(this.year, this.month, 1).getDay();
-    }
-    this.weekdayEnd = function() {
-        return new Date(this.year, this.month, this.totalDays).getDay();
     }
     this.setCalendar = function() {
         let offset = -this.weekdayStart();
