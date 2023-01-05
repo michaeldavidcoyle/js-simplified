@@ -10,12 +10,18 @@ const nextMonthBtn = document.querySelector('.next-month-button');
 datePickerBtn.innerText = format(today, 'MMMM do yyyy');
 currentMonthHeader.innerText = format(today, 'MMMM - yyyy');
 
-let month = new Month(today);
-month.setCalendar();
+let currentMonth = new Month(today);
+currentMonth.setCalendar();
 
 for (let d = 0; d < dateButtons.length; d++) {
-    let currentDate = month.calendar[d];
+    let currentDate = currentMonth.calendar[d];
     dateButtons[d].innerText = currentDate.getDate();
+
+    if (currentDate.getMonth() === currentMonth.month) {
+        dateButtons[d].classList.remove('date-picker-other-month-date');
+    } else {
+        dateButtons[d].classList.add('date-picker-other-month-date');
+    }
 
     if (today.getDate() === d + 1) {
         dateButtons[d].classList.add('selected');
