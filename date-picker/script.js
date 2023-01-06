@@ -1,4 +1,4 @@
-import {add, format, getDaysInMonth} from 'date-fns';
+import {add, format, getDaysInMonth, isSameDay} from 'date-fns';
 
 const today = new Date();
 const datePickerBtn = document.querySelector('.date-picker-button');
@@ -29,7 +29,7 @@ function makeCalendar(dateSelection) {
             dateButtons[d].classList.add('date-picker-other-month-date');
         }
 
-        if (selectedDate.getDate() === currentDate.getDate()) {
+        if (isSameDay(selectedDate, currentDate)) {
             dateButtons[d].classList.add('selected');
         } else {
             dateButtons[d].classList.remove('selected');
