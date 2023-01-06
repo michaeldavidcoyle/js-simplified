@@ -90,15 +90,12 @@ function Month(inputDate) {
     this.first = new Date(this.year, this.month, 1);
     this.totalDays = getDaysInMonth(inputDate);
     this.calendar = [];
-    this.prevMonth = add(inputDate, {months: -1});
-    this.nextMonth = add(inputDate, {months: 1});
 
     this.setCalendar = function () {
         let offset = -this.first.getDay();
         while (this.calendar.length < dateButtons.length) {
             let date = add(this.first, {days: offset++});
             this.calendar.push(date);
-            // console.log(date)
         }
     }
 }
