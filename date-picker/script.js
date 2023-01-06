@@ -35,6 +35,16 @@ function makeCalendar(dateSelection) {
             dateButtons[d].classList.remove('selected');
         }
     }
+
+    if (dateButtons[35].classList.contains('date-picker-other-month-date')) {
+        for (let d = 35; d < dateButtons.length; d++) {
+            dateButtons[d].classList.add('extra-week');
+        }
+    } else {
+        for (let d = 35; d < dateButtons.length; d++) {
+            dateButtons[d].classList.remove('extra-week');
+        }
+    }
 }
 
 makeCalendar(today);
