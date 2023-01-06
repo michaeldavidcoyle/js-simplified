@@ -9,13 +9,14 @@ const nextMonthBtn = document.querySelector('.next-month-button');
 const datePickerGrid = document.querySelector('.date-picker-grid-dates');
 
 let currentMonth;
-let selectedDate = today;
+let selectedDate;
 
-datePickerBtn.innerText = format(today, 'MMMM do yyyy');
-currentMonthHeader.innerText = format(today, 'MMMM - yyyy');
+function makeCalendar(dateSelection) {
+    selectedDate = dateSelection;
+    datePickerBtn.innerText = format(dateSelection, 'MMMM do yyyy');
+    currentMonthHeader.innerText = format(dateSelection, 'MMMM - yyyy');
 
-function makeCalendar(selectedDate) {
-    currentMonth = new Month(selectedDate);
+    currentMonth = new Month(dateSelection);
     currentMonth.setCalendar();
 
     for (let d = 0; d < dateButtons.length; d++) {
@@ -28,7 +29,7 @@ function makeCalendar(selectedDate) {
             dateButtons[d].classList.add('date-picker-other-month-date');
         }
 
-        if (today.getDate() === currentDate.getDate()) {
+        if (selectedDate.getDate() === currentDate.getDate()) {
             dateButtons[d].classList.add('selected');
         } else {
             dateButtons[d].classList.remove('selected');
@@ -59,29 +60,31 @@ datePickerGrid.addEventListener('click', event => {
 });
 
 prevMonthBtn.addEventListener('click', event => {
+    const previousMonthDate = add(selectedDate, {months: -1});
+    makeCalendar(previousMonthDate);
 });
 
 nextMonthBtn.addEventListener('click', event => {
-    console.log('nextMonthBtn clicked');
+    const nextMonthDate = add(selectedDate, {months: 1});
+    makeCalendar(nextMonthDate);
 });
 
-function Month(selectedDate) {
-    this.year = selectedDate.getFullYear();
-    this.month = selectedDate.getMonth();
-    this.date = selectedDate;
-    this.totalDays = getDaysInMonth(selectedDate);
+function Month(inputDate) {
+    this.year = inputDate.getFullYear();
+    this.month = inputDate.getMonth();
+    this.date = inputDate;
+    this.first = new Date(this.year, this.month, 1);
+    this.totalDays = getDaysInMonth(inputDate);
     this.calendar = [];
-    this.prevMonth = add(selectedDate, {months: -1});
-    this.nextMonth = add(selectedDate, {months: 1});
-    this.weekdayStart = function () {
-        return new Date(this.year, this.month, 1).getDay();
-    }
+    this.prevMonth = add(inputDate, {months: -1});
+    this.nextMonth = add(inputDate, {months: 1});
+
     this.setCalendar = function () {
-        let offset = -this.weekdayStart();
-        const startDate = add(this.date, {days: -this.date.getDate() - offset++});
+        let offset = -this.first.getDay();
         while (this.calendar.length < dateButtons.length) {
-            let date = add(startDate, {days: offset++});
+            let date = add(this.first, {days: offset++});
             this.calendar.push(date);
+            // console.log(date)
         }
     }
 }
