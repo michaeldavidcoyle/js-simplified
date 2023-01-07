@@ -1,15 +1,23 @@
-import {add, format, getDaysInMonth, isSameDay} from 'date-fns';
+import {
+    add,
+    format,
+    startOfWeek,
+    endOfWeek,
+    endOfMonth,
+    eachDayOfInterval,
+    isSameDay,
+    isSameMonth
+} from 'date-fns';
 
 const today = new Date();
 const datePickerBtn = document.querySelector('.date-picker-button');
 const datePicker = document.querySelector('.date-picker');
 const currentMonthHeader = document.querySelector('.current-month');
-const dateButtons = document.querySelectorAll('.date');
 const prevMonthBtn = document.querySelector('.prev-month-button');
 const nextMonthBtn = document.querySelector('.next-month-button');
 const datePickerGrid = document.querySelector('.date-picker-grid-dates');
 
-let currentMonth;
+let currentMonth = getCalendar(today);
 let selectedDate;
 
 makeCalendar(today);
@@ -21,21 +29,25 @@ datePickerBtn.addEventListener('click', () => {
 datePickerGrid.addEventListener('click', event => {
     if (!event.target.matches('.date')) return;
 
+    const dateButtons = datePickerGrid.children;
     for (let d = 0; d < dateButtons.length; d++) {
         dateButtons[d].classList.remove('selected');
     }
+
     event.target.classList.add('selected');
 
-    selectedDate = currentMonth.calendar[event.target.dataset.index];
+    selectedDate = currentMonth[event.target.dataset.index];
     datePickerBtn.innerText = format(selectedDate, 'MMMM do yyyy');
+
+    datePicker.classList.remove('show');
 });
 
-prevMonthBtn.addEventListener('click', event => {
+prevMonthBtn.addEventListener('click', () => {
     const previousMonthDate = add(selectedDate, {months: -1});
     makeCalendar(previousMonthDate);
 });
 
-nextMonthBtn.addEventListener('click', event => {
+nextMonthBtn.addEventListener('click', () => {
     const nextMonthDate = add(selectedDate, {months: 1});
     makeCalendar(nextMonthDate);
 });
@@ -44,55 +56,34 @@ function makeCalendar(dateSelection) {
     selectedDate = dateSelection;
     datePickerBtn.innerText = format(dateSelection, 'MMMM do yyyy');
     currentMonthHeader.innerText = format(dateSelection, 'MMMM - yyyy');
-
-    currentMonth = new Month(dateSelection);
+    currentMonth = getCalendar(dateSelection);
     setCalendarPage(currentMonth);
 }
 
 function setCalendarPage(currentMonth) {
-    currentMonth.setCalendar();
+    datePickerGrid.innerHTML = '';
 
-    for (let d = 0; d < dateButtons.length; d++) {
-        let currentDate = currentMonth.calendar[d];
-        dateButtons[d].innerText = currentDate.getDate();
+    currentMonth.forEach((date, index) => {
+        const dateElement = document.createElement('button');
+        dateElement.classList.add('date');
+        dateElement.setAttribute('data-index', index);
+        dateElement.innerText = date.getDate();
 
-        if (currentDate.getMonth() === currentMonth.month) {
-            dateButtons[d].classList.remove('date-picker-other-month-date');
-        } else {
-            dateButtons[d].classList.add('date-picker-other-month-date');
+        if (!isSameMonth(date, selectedDate)) {
+            dateElement.classList.add('date-picker-other-month-date');
         }
 
-        if (isSameDay(selectedDate, currentDate)) {
-            dateButtons[d].classList.add('selected');
-        } else {
-            dateButtons[d].classList.remove('selected');
+        if (isSameDay(date, selectedDate)) {
+            dateElement.classList.add('selected');
         }
-    }
 
-    if (dateButtons[35].classList.contains('date-picker-other-month-date')) {
-        for (let d = 35; d < dateButtons.length; d++) {
-            dateButtons[d].classList.add('extra-week');
-        }
-    } else {
-        for (let d = 35; d < dateButtons.length; d++) {
-            dateButtons[d].classList.remove('extra-week');
-        }
-    }
+        datePickerGrid.appendChild(dateElement);
+    });
 }
 
-function Month(inputDate) {
-    this.year = inputDate.getFullYear();
-    this.month = inputDate.getMonth();
-    this.date = inputDate;
-    this.first = new Date(this.year, this.month, 1);
-    this.totalDays = getDaysInMonth(inputDate);
-    this.calendar = [];
-
-    this.setCalendar = function () {
-        let offset = -this.first.getDay();
-        while (this.calendar.length < dateButtons.length) {
-            let date = add(this.first, {days: offset++});
-            this.calendar.push(date);
-        }
-    }
+function getCalendar(inputDate) {
+    const first = new Date(inputDate.getFullYear(), inputDate.getMonth(), 1);
+    const monthStart = startOfWeek(first);
+    const monthEnd = endOfWeek(endOfMonth(inputDate));
+    return eachDayOfInterval({start: monthStart, end: monthEnd});
 }
