@@ -2,6 +2,7 @@ import {add, format, getDaysInMonth, isSameDay} from 'date-fns';
 
 const today = new Date();
 const datePickerBtn = document.querySelector('.date-picker-button');
+const datePicker = document.querySelector('.date-picker');
 const currentMonthHeader = document.querySelector('.current-month');
 const dateButtons = document.querySelectorAll('.date');
 const prevMonthBtn = document.querySelector('.prev-month-button');
@@ -13,12 +14,8 @@ let selectedDate;
 
 makeCalendar(today);
 
-datePickerBtn.addEventListener('click', event => {
-    event.target
-        .closest('.date-picker-container')
-        .querySelector('.date-picker')
-        .classList
-        .toggle('show');
+datePickerBtn.addEventListener('click', () => {
+    datePicker.classList.toggle('show');
 });
 
 datePickerGrid.addEventListener('click', event => {
